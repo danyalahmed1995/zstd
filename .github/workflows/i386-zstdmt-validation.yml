@@ -18,7 +18,7 @@ jobs:
         run: |
           docker run --rm --platform linux/386 -v "$PWD:/src" -w /src debian:testing bash -euxo pipefail -c '
             apt-get update
-            apt-get install -y build-essential cmake git
+            apt-get install -y build-essential cmake git file
             make clean
             make -j"$(nproc)"
             make check
