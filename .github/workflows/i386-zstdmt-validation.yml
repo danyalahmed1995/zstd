@@ -1,0 +1,25 @@
+name: i386 zstdmt validation
+
+on:
+  push:
+    branches:
+      - ci/4628-i386-validation
+
+jobs:
+  i386:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-qemu-action@v3
+
+      - name: Build and test on linux/386
+        run: |
+          docker run --rm --platform linux/386 -v "$PWD:/src" -w /src debian:testing bash -euxo pipefail -c '
+            apt-get update
+            apt-get install -y build-essential cmake git
+            make clean
+            make -j"$(nproc)"
+            make check
+          '
